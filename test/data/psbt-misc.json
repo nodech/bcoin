@@ -1,0 +1,22 @@
+{
+  "pathVectors": [
+    {
+      "name": "xpub",
+      "path": "m/0/0",
+      "indexes": [0, 0],
+      "fingerPrint": "00ff00ff",
+      "rawPath": "00ff00ff0000000000000000"
+    },
+    {
+      "name": "bip44 xpub",
+      "path": "m/44'/0'/0'",
+      "indexes": [
+        2147483692,
+        2147483648,
+        2147483648
+      ],
+      "fingerPrint": "00ff00ff",
+      "rawPath": "00ff00ff2c0000800000008000000080"
+    }
+  ]
+}
