@@ -786,21 +786,6 @@ describe('Mempool', function() {
   });
 
   describe('AddrIndexer', function () {
-    it('will not get key for invalid witness program v0', function() {
-      const addrindex = new AddrIndexer();
-
-      // Create a witness program version 0 with
-      // 10 byte data push.
-      const addr = new Address();
-      addr.type = Address.types.WITNESS;
-      addr.version = 0;
-      addr.hash = Buffer.alloc(10);
-
-      const key = addrindex.getKey(addr);
-
-      assert.strictEqual(key, null);
-    });
-
     it('will get key for witness program v0', function() {
       const addrindex = new AddrIndexer();
 
@@ -814,7 +799,7 @@ describe('Mempool', function() {
 
       const key = addrindex.getKey(addr);
 
-      assert.bufferEqual(key, Buffer.from('0a' + '00'.repeat(32), 'hex'));
+      assert.bufferEqual(key, Buffer.from('00' + '00'.repeat(32), 'hex'));
     });
 
     it('will get key for witness program v1', function() {
@@ -830,7 +815,7 @@ describe('Mempool', function() {
 
       const key = addrindex.getKey(addr);
 
-      assert.bufferEqual(key, Buffer.from('f1' + '00'.repeat(32), 'hex'));
+      assert.bufferEqual(key, Buffer.from('01' + '00'.repeat(32), 'hex'));
     });
 
     it('will get key for witness program v15', function() {
@@ -846,7 +831,29 @@ describe('Mempool', function() {
 
       const key = addrindex.getKey(addr);
 
-      assert.bufferEqual(key, Buffer.from('ff' + '00'.repeat(32), 'hex'));
+      assert.bufferEqual(key, Buffer.from('0f' + '00'.repeat(32), 'hex'));
+    });
+
+    it('will get key for P2PKH', function() {
+      const addrindex = new AddrIndexer();
+
+      const script = Script.fromPubkeyhash(Buffer.alloc(20));
+      const addr = Address.fromScript(script);
+
+      const key = addrindex.getKey(addr);
+
+      assert.bufferEqual(key, Buffer.from('80' + '00'.repeat(20), 'hex'));
+    });
+
+    it('will get key for P2SH', function() {
+      const addrindex = new AddrIndexer();
+
+      const script = Script.fromScripthash(Buffer.alloc(20));
+      const addr = Address.fromScript(script);
+
+      const key = addrindex.getKey(addr);
+
+      assert.bufferEqual(key, Buffer.from('85' + '00'.repeat(20), 'hex'));
     });
   });
 

@@ -244,7 +244,7 @@ describe('Address', function() {
       const network = Network.get('regtest');
       assert.strictEqual(
         parsed.getPrefix(network),
-        network.addressPrefix.witnessVersionMask + 1
+        parsed.version
       );
     }
   });
